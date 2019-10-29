@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -19,6 +20,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path == "/callback" {
 		code := r.URL.Query().Get("code")
+		log.Println(code)
 
 		codeBytes, _ := json.Marshal(&CodeReq{Code: code})
 		reader := bytes.NewReader(codeBytes)
@@ -26,7 +28,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		req, _ := http.NewRequest(http.MethodPost,
 			fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), reader)
 
-		req.Header.Add("Accept", "application/vnd.github.fury-preview+json")
+		req.Header.Add("accept", "application/vnd.github.fury-preview+json")
 		res, err := http.DefaultClient.Do(req)
 
 		if err != nil {
