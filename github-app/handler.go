@@ -2,7 +2,6 @@ package function
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -22,8 +21,9 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		code := r.URL.Query().Get("code")
 		log.Println(code)
 
-		codeBytes, _ := json.Marshal(&CodeReq{Code: code})
-		reader := bytes.NewReader(codeBytes)
+		// codeBytes, _ := json.Marshal(&CodeReq{Code: code})
+		// reader := bytes.NewReader(codeBytes)
+		reader := bytes.NewReader([]byte(code))
 
 		req, _ := http.NewRequest(http.MethodPost,
 			fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), reader)
