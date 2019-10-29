@@ -15,7 +15,9 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/callback" {
 		code := r.URL.Query().Get("code")
 		reader := bytes.NewBufferString(code)
-		res, err := http.Post(fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), "application/vnd.github.fury-preview+json", reader)
+		req, _:=http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions",code), reader)
+		req.Header.Add("Accept","application/vnd.github.fury-preview+json")
+		res, err := http.Post(fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), , reader)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
