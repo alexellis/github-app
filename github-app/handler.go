@@ -1,7 +1,6 @@
 package function
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -24,11 +23,11 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 		codeBytes, _ := json.Marshal(&CodeReq{Code: code})
 		log.Println(string(codeBytes))
-		reader := bytes.NewReader(codeBytes)
+		// reader := bytes.NewReader(codeBytes)
 		// reader := bytes.NewReader([]byte(code))
 
 		req, _ := http.NewRequest(http.MethodPost,
-			fmt.Sprintf("https://api.github.com/app-manifests/:code/conversions"), reader)
+			fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), nil)
 
 		req.Header.Add("Accept", "application/vnd.github.fury-preview+json")
 		res, err := http.DefaultClient.Do(req)
