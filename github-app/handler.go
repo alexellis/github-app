@@ -24,10 +24,16 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 			defer res.Body.Close()
 			result, _ := ioutil.ReadAll(res.Body)
 			w.Write(result)
+			return
 		}
+		return
 	}
 
-	res, _ := ioutil.ReadFile("function/index.html")
+	res, err := ioutil.ReadFile("function/index.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
