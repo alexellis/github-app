@@ -2,10 +2,15 @@ package function
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
+
+type CodeReq struct {
+	Code string `json:"code"`
+}
 
 func Handle(w http.ResponseWriter, r *http.Request) {
 	if r.Body != nil {
@@ -14,8 +19,13 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path == "/callback" {
 		code := r.URL.Query().Get("code")
-		reader := bytes.NewReader([]byte(code))
-		req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), reader)
+
+		codeBytes, _ := json.Marshal(&CodeReq{Code: code})
+		reader := bytes.NewReader(codeBytes)
+
+		req, _ := http.NewRequest(http.MethodPost,
+			fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), reader)
+
 		req.Header.Add("Accept", "application/vnd.github.fury-preview+json")
 		res, err := http.DefaultClient.Do(req)
 
