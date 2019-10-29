@@ -3,29 +3,29 @@
 </head>
 <body>
     <form action="https://github.com/settings/apps/new" method="post">
-        Create a GitHub App Manifest: <input type="text" name="manifest" id="manifest"><br>
+        Create a GitHub App Manifest for OpenFaaS Cloud: <input type="text" name="manifest" id="manifest"><br>
         <input type="submit" value="Submit">
         </form>
         
         <script>
         input = document.getElementById("manifest")
         input.value = JSON.stringify({
-            "name": "Octoapp",
-            "url": "https://www.example.com",
+            "name": "OpenFaaS Cloud",
+            "url": "https://github.com/openfaas/openfaas-cloud/",
             "hook_attributes": {
-            "url": "https://example.com/github/events",
+                "url": "https://system.example.com/github-event",
             },
             "redirect_url": "https://alexellis.o6s.io/github-app/callback",
             "public": true,
             "default_permissions": {
-            "issues": "write",
-            "checks": "write"
+                "issues": "write",
+                "checks": "write"
             },
             "default_events": [
-            "issues",
-            "issue_comment",
-            "check_suite",
-            "check_run"
+                "issues",
+                "issue_comment",
+                "check_suite",
+                "check_run"
             ]
         })
         </script>
