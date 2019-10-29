@@ -23,7 +23,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		log.Println(code)
 
 		codeBytes, _ := json.Marshal(&CodeReq{Code: code})
-		log.Println(codeBytes)
+		log.Println(string(codeBytes))
 		reader := bytes.NewReader(codeBytes)
 		// reader := bytes.NewReader([]byte(code))
 
