@@ -29,7 +29,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := ioutil.ReadFile("function/index.html")
+	res, err := ioutil.ReadFile("./function/index.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
