@@ -2,9 +2,9 @@
 <head>
 </head>
 <body>
+    <h2>Create your OpenFaaS Cloud GitHub App</h2>
     <form action="https://github.com/settings/apps/new" method="post">
-        Create your OpenFaaS Cloud App:
-        <p>Webhook URL: (http(s)://system.example.com/github-event)<br/>
+        <p>Webhook URL i.e. https://system.example.com/github-event<br/>
             <input type="text" size="80" onchange="webhookChanged()" id="webhookURL" value="https://system.example.com/github-event"></input>
         </p>
 
@@ -28,7 +28,7 @@
                 "hook_attributes": {
                     "url": webhookURL.value,
                 },
-                "redirect_url": "https://alexellis.o6s.io/github-app/callback",
+                "redirect_url": webhookURL.value,
                 "public": true,
                 "default_permissions": {
                     "checks": "write",
