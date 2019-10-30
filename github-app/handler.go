@@ -22,7 +22,7 @@ type AppTemplate struct {
 }
 
 type AppResult struct {
-	ID            string `json:"id"`
+	ID            int    `json:"id"`
 	PEM           string `json:"pem"`
 	URL           string `json:"html_url"`
 	Name          string `json:"name"`
@@ -62,7 +62,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 			tmpl, err := template.ParseFiles("result.html")
 			err = tmpl.Execute(&outBuffer, AppTemplate{
-				AppID:         appRes.ID,
+				AppID:         fmt.Sprintf("%d", appRes.ID),
 				AppName:       appRes.Name,
 				AppURL:        appRes.URL,
 				PEM:           appRes.PEM,
