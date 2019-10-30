@@ -4,15 +4,15 @@
 <body>
     <form action="https://github.com/settings/apps/new" method="post">
         Create your OpenFaaS Cloud App:
-        <p>Webhook URL:<br/>
-            <input type="text" onchange="webhookChanged()" id="webhookURL" value="https://system.example.com/github-event"></input>
+        <p>Webhook URL: (http(s)://system.example.com/github-event)<br/>
+            <input type="text" size="80" onchange="webhookChanged()" id="webhookURL" value="https://system.example.com/github-event"></input>
         </p>
 
         <p>
             Preview of your app manifest<br/>
             <textarea rows="10" cols="80" name="manifest" id="manifest"></textarea>
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit App">
         </p>
         </form>
         
