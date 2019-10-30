@@ -4,6 +4,10 @@
 <body>
     <form action="https://github.com/settings/apps/new" method="post">
         Create your OpenFaaS Cloud App:
+        <p>Webhook URL:<br/>
+            <input type="text" onchange="webhookChanged()" name="webhookURL" value="https://system.example.com/github-event"></input>
+        </p>
+
         <p>
             <textarea rows="10" cols="80" name="manifest" id="manifest"></textarea>
             <br>
@@ -12,26 +16,32 @@
         </form>
         
         <script>
-        input = document.getElementById("manifest")
-        input.value = JSON.stringify({
-            "name": "My OpenFaaS Cloud",
-            "url": "https://github.com/openfaas/openfaas-cloud/",
-            "hook_attributes": {
-                "url": "https://system.example.com/github-event",
-            },
-            "redirect_url": "https://alexellis.o6s.io/github-app/callback",
-            "public": true,
-            "default_permissions": {
-                "issues": "write",
-                "checks": "write"
-            },
-            "default_events": [
-                "issues",
-                "issue_comment",
-                "check_suite",
-                "check_run"
-            ]
-        })
+
+        function webhookChanged() {
+            input = document.getElementById("manifest")
+            webhookURL = document.getElementById("webhookURL")
+
+            input.value = JSON.stringify({
+                "name": "My OpenFaaS Cloud",
+                "url": "https://github.com/openfaas/openfaas-cloud/",
+                "hook_attributes": {
+                    "url": webhookURL.value,
+                },
+                "redirect_url": "https://alexellis.o6s.io/github-app/callback",
+                "public": true,
+                "default_permissions": {
+                    "checks": "write",
+                    "contents": "read",
+                    "statuses": "write"
+                },
+                "default_events": [
+                    "push",
+                    "repository",
+                ]
+            })
+        }
+
+        webhookChanged();
         </script>
 </body>
 </html>

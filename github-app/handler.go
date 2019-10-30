@@ -1,10 +1,8 @@
 package function
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -19,12 +17,6 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path == "/callback" {
 		code := r.URL.Query().Get("code")
-		log.Println(code)
-
-		codeBytes, _ := json.Marshal(&CodeReq{Code: code})
-		log.Println(string(codeBytes))
-		// reader := bytes.NewReader(codeBytes)
-		// reader := bytes.NewReader([]byte(code))
 
 		req, _ := http.NewRequest(http.MethodPost,
 			fmt.Sprintf("https://api.github.com/app-manifests/%s/conversions", code), nil)
