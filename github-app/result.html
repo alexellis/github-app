@@ -5,20 +5,20 @@
     <h2>Your GitHub App <a href="{{.AppURL}}">{{.AppName}}</a></h2>
     <form action="https://github.com/settings/apps/new" method="post">
         <p>
-            GitHub App config:<br />
-            <textarea rows="10" cols="80" name="output" id="output">{{.Response}}</textarea>
-        </p>
-        <p>
-            Your GitHub App ID:<br />
+            <h3>Your GitHub App ID</h3>
             <input type="text" size="80" id="appID" value="{{.AppID}}"></input>
         </p>
         <p>
-            Your GitHub App PEM:<br />
+            <h3>Your GitHub App PEM</h3>
             <textarea rows="10" cols="80" name="pem" id="pem">{{.PEM}}</textarea>
         </p>
         <p>
-            Your webhook secret:<br />
+            <h3>Your webhook secret</h3>
             <input type="text" size="80" id="secret" value="{{.WebhookSecret}}"></input>
+        </p>
+        <p>
+            <h3>Complete GitHub App config</h3>
+            <textarea rows="10" cols="80" name="output" id="output">{{.Response}}</textarea>
         </p>
     </form>
 </body>
