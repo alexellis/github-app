@@ -1,13 +1,32 @@
 package function
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 )
 
 type CodeReq struct {
 	Code string `json:"code"`
+}
+
+type AppTemplate struct {
+	AppID         string
+	AppURL        string
+	AppName       string
+	PEM           string
+	WebhookSecret string
+}
+
+type AppResult struct {
+	ID            string `json:"id"`
+	PEM           string `json:"pem"`
+	URL           string `json:"html_url"`
+	Name          string `json:"name"`
+	WebhookSecret string `json:"webhook_secret"`
 }
 
 func Handle(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +50,33 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		if res.Body != nil {
 			defer res.Body.Close()
 			result, _ := ioutil.ReadAll(res.Body)
-			w.Write(result)
+
+			appRes := AppResult{}
+
+			err := json.Unmarshal(result, &appRes)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			var outBuffer bytes.Buffer
+
+			tmpl, err := template.ParseFiles("result.html")
+			err = tmpl.Execute(&outBuffer, AppTemplate{
+				AppID:         appRes.ID,
+				AppName:       appRes.Name,
+				AppURL:        appRes.URL,
+				PEM:           appRes.PEM,
+				WebhookSecret: appRes.WebhookSecret,
+			})
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			w.Header().Set("Content-Type", "text/html")
+			w.WriteHeader(http.StatusOK)
+			w.Write(outBuffer.Bytes())
+
 			return
 		}
 		return
@@ -43,6 +88,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 

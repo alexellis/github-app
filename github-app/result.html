@@ -1,0 +1,24 @@
+<html>
+<head>
+</head>
+<body>
+    <h2>Your GitHub App <a href="{{.AppURL}}">{{.AppName}}</h2>
+    <form action="https://github.com/settings/apps/new" method="post">
+        <p>
+            GitHub App config:<br />
+            <textarea rows="10" cols="80" name="output" id="output"></textarea>
+            Your GitHub App ID:<br />
+            <input type="text" size="80" id="appID" value="{{.AppID}}"></input>
+            Your GitHub App PEM:<br />
+            <textarea rows="10" cols="80" name="pem" id="pem">{{.PEM}}</textarea>
+            Your webhook secret:<br />
+            <textarea rows="10" cols="80" name="secret" id="secret">{{.WebhookSecret}}</textarea>
+        </p>
+        </form>
+        
+        <script>
+            var output = document.getElementById("manifest")
+            output.value = JSON.stringify({{.Result}})
+        </script>
+</body>
+</html>
