@@ -19,8 +19,8 @@
         <script>
 
         function webhookChanged() {
-            input = document.getElementById("manifest")
-            webhookURL = document.getElementById("webhookURL")
+            var input = document.getElementById("manifest")
+            var webhookURL = document.getElementById("webhookURL")
 
             input.value = JSON.stringify({
                 "name": "My OpenFaaS Cloud",
