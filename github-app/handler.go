@@ -19,6 +19,7 @@ type AppTemplate struct {
 	AppName       string
 	PEM           string
 	WebhookSecret string
+	Result        string
 }
 
 type AppResult struct {
@@ -67,6 +68,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 				AppURL:        appRes.URL,
 				PEM:           appRes.PEM,
 				WebhookSecret: appRes.WebhookSecret,
+				Result:        string(result),
 			})
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
